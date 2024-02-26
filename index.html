@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      .container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      .iframe {
+        flex-grow: 1;
+        border: 1px solid black;
+      }
+      .row {
+        display: flex;
+        flex-direction: row;
+      }
+      .divider {
+        height: 10px;
+        background: #ccc;
+        cursor: ns-resize;
+      }
+      .divider-vertical {
+        width: 10px;
+        background: #ccc;
+        cursor: ew-resize;
+      }
+      .container1 {
+        height: 45vh;
+      }
+      .container2 {
+        width: 45vw;
+      }
+      .container3 {
+        width: 45vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="container1">
+        <iframe class="iframe" src="https://www.example.com"></iframe>
+      </div>
+      <div class="divider" id="divider-horizontal"></div>
+      <div class="row">
+        <div class="container2">
+          <iframe class="iframe" src="https://www.example.com"></iframe>
+        </div>
+        <div class="divider-vertical" id="divider-vertical"></div>
+        <div class="container3">
+          <iframe class="iframe" src="https://www.example.com"></iframe>
+        </div>
+      </div>
+    </div>
+    <script>
+      var dividerHorizontal = document.getElementById("divider-horizontal");
+      var dividerVertical = document.getElementById("divider-vertical");
+      var isDraggingHorizontal = false;
+      var isDraggingVertical = false;
+
+      dividerHorizontal.addEventListener("mousedown", function () {
+        isDraggingHorizontal = true;
+      });
+
+      dividerVertical.addEventListener("mousedown", function () {
+        isDraggingVertical = true;
+      });
+
+      window.addEventListener("mousemove", function (e) {
+        if (isDraggingHorizontal) {
+          e.preventDefault();
+          dividerHorizontal.previousElementSibling.style.height =
+            e.clientY + "px";
+          dividerHorizontal.nextElementSibling.style.height =
+            window.innerHeight - e.clientY + "px";
+        }
+
+        if (isDraggingVertical) {
+          e.preventDefault();
+          dividerVertical.previousElementSibling.style.width = e.clientX + "px";
+          dividerVertical.nextElementSibling.style.width =
+            window.innerWidth - e.clientX + "px";
+        }
+      });
+
+      window.addEventListener("mouseup", function () {
+        isDraggingHorizontal = false;
+        isDraggingVertical = false;
+      });
+    </script>
+  </body>
+</html>
